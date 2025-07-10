@@ -1,4 +1,3 @@
-export 'ad_view/ad_view_widget.dart';
 export 'background_layer.dart';
 export 'game_over/game_over.dart';
 export 'hud/hud.dart';

@@ -6,7 +6,6 @@ import 'package:endless_runner/modules/game_screen/layers/layers.dart';
 import 'package:endless_runner/values/values.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:nes_ui/nes_ui.dart';
 
 class MainMenu extends StatelessWidget {
@@ -63,13 +62,6 @@ class MainMenu extends StatelessWidget {
                       NesButton.text(
                         type: NesButtonType.normal,
                         onPressed: () async {
-                          final result = await showDialog(
-                            context: context,
-                            builder: (builderCtx) {
-                              return const AdViewWidget(adSize: AdSize.fluid);
-                            },
-                          );
-
                           game.startGame();
                           game.overlays
                             ..remove(MainMenu.id)
