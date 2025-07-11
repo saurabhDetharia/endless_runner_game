@@ -1,8 +1,21 @@
+import java.util.Base64
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val dartEnvironmentVariables: Map<String, String> = if (project.hasProperty("dart-defines")) {
+    val defines = project.property("dart-defines") as String
+    defines.split(",").associate { entry ->
+        val decoded = String(Base64.getDecoder().decode(entry), Charsets.UTF_8)
+        val (key, value) = decoded.split("=")
+        key to value
+    }
+} else {
+    emptyMap()
 }
 
 android {
@@ -28,6 +41,19 @@ android {
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders.putAll(
+            mapOf(
+                "GAD_APP_ID_ANDROID" to (dartEnvironmentVariables["GAD_APP_ID_ANDROID"] ?: "")
+            )
+        )
+
+
+       /* // Add the manifest placeholder from dart-define
+        manifestPlaceholders = [
+            apiKey: decodedDefines.containsKey('GAD_APP_ID_ANDROID') ? decodedDefines['GAD_APP_ID_ANDROID'] : '',
+        applicationName: "com.example.endless_runner",
+        ]*/
     }
 
     buildTypes {
