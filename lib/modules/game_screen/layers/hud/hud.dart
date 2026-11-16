@@ -14,13 +14,51 @@ class Hud extends StatelessWidget {
   static const id = 'ScreenOptions';
 
   @override
-  Widget build(BuildContext context) => SafeArea(minimum: const EdgeInsets.all(12), child: Stack(children: [
-    Positioned(top: 4, left: 4, child: PixelButton(label: 'PAUSE', icon: FluentIcons.pause_24_filled, compact: true, onPressed: () { game.overlays..remove(Hud.id)..add(PauseOptions.id); game.pauseEngine(); })),
-    Positioned(top: 4, right: 4, child: Observer(builder: (_) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(color: const Color(0xEFFFFFFF), border: Border.all(color: const Color(0xFF17171D), width: 3), boxShadow: const [BoxShadow(color: Color(0xFF17171D), offset: Offset(4, 4), blurRadius: 0)]),
-      child: Text('SCORE  ${gameStore.score.toString().padLeft(3, '0')}', style: Theme.of(context).textTheme.titleSmall?.copyWith(color: const Color(0xFF11131A), fontWeight: FontWeight.w900, letterSpacing: 1)),
-    ))),
-    Positioned(left: 8, bottom: 8, child: LivesList(gameStore: gameStore)),
-  ]));
+  Widget build(BuildContext context) => SafeArea(
+    minimum: const EdgeInsets.fromLTRB(10, 8, 10, 0),
+    child: LayoutBuilder(builder: (context, constraints) {
+      final compact = constraints.maxWidth < 360;
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          PixelButton(
+            label: compact ? '' : 'PAUSE',
+            icon: FluentIcons.pause_24_filled,
+            compact: true,
+            onPressed: () {
+              game.overlays..remove(Hud.id)..add(PauseOptions.id);
+              game.pauseEngine();
+            },
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: LivesList(gameStore: gameStore),
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Observer(builder: (_) => Container(
+            padding: EdgeInsets.symmetric(horizontal: compact ? 8 : 12, vertical: 9),
+            decoration: BoxDecoration(
+              color: const Color(0xFF17243A),
+              border: Border.all(color: const Color(0xFFFFD34E), width: 3),
+              boxShadow: const [BoxShadow(color: Color(0xCC07162D), offset: Offset(3, 3), blurRadius: 0)],
+            ),
+            child: Text(
+              '${gameStore.score.toString().padLeft(3, '0')}',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: const Color(0xFFFFE27A),
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1.5,
+              ),
+            ),
+          )),
+        ],
+      );
+    }),
+  );
 }

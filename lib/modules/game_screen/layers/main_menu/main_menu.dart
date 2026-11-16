@@ -14,24 +14,57 @@ class MainMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ClipRect(
     child: BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+      filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
       child: Stack(children: [
-        const Positioned.fill(child: ColoredBox(color: Color(0x440B2340))),
+        const Positioned.fill(child: ColoredBox(color: Color(0x33091B32))),
         SafeArea(child: LayoutBuilder(builder: (context, constraints) {
           final compact = constraints.maxHeight < 520;
           return Stack(children: [
-            Positioned(top: 12, left: 12, child: PixelButton(label: 'SETTINGS', icon: FluentIcons.settings_24_filled, compact: true, onPressed: () => game.overlays.add(Settings.id))),
+            Positioned(top: 12, right: 12, child: PixelButton(
+              label: 'SETTINGS',
+              icon: FluentIcons.settings_24_filled,
+              compact: true,
+              backgroundColor: const Color(0xFFFFF7D6),
+              onPressed: () => game.overlays.add(Settings.id),
+            )),
             Center(child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22, vertical: compact ? 62 : 76),
+              padding: EdgeInsets.symmetric(horizontal: 22, vertical: compact ? 58 : 76),
               child: Column(mainAxisSize: MainAxisSize.min, children: [
-                FittedBox(fit: BoxFit.scaleDown, child: Text(AppStrings.instance.appName, textAlign: TextAlign.center, style: Theme.of(context).textTheme.displayMedium?.copyWith(color: const Color(0xFFE4EBFF), fontWeight: FontWeight.w900, letterSpacing: 2, shadows: const [Shadow(color: Color(0xCC07162D), offset: Offset(5, 6), blurRadius: 0), Shadow(color: Colors.black54, blurRadius: 18)]))),
-                const SizedBox(height: 12),
-                Text('RUN  •  JUMP  •  SURVIVE', textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.white, letterSpacing: 3, fontWeight: FontWeight.w800, shadows: const [Shadow(color: Colors.black87, blurRadius: 8)])),
-                SizedBox(height: compact ? 30 : 48),
-                PixelButton(label: AppStrings.instance.startButton.toUpperCase(), icon: FluentIcons.play_24_filled, width: 220, onPressed: () {
-                  game.startGame();
-                  game.overlays..remove(MainMenu.id)..add(Hud.id);
-                }),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: compact ? 14 : 24, vertical: compact ? 12 : 18),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF17243A),
+                    border: Border.all(color: const Color(0xFFFFD34E), width: 4),
+                    boxShadow: const [BoxShadow(color: Color(0xCC07162D), offset: Offset(7, 7), blurRadius: 0)],
+                  ),
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    FittedBox(fit: BoxFit.scaleDown, child: Text(
+                      AppStrings.instance.appName.toUpperCase(),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                        color: const Color(0xFFFFD34E),
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 2.5,
+                        shadows: const [Shadow(color: Color(0xFF000000), offset: Offset(3, 4), blurRadius: 0)],
+                      ),
+                    )),
+                    const SizedBox(height: 8),
+                    Text('★  RUN  •  JUMP  •  SURVIVE  ★', textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.white, letterSpacing: 1.5, fontWeight: FontWeight.w800)),
+                  ]),
+                ),
+                SizedBox(height: compact ? 28 : 42),
+                PixelButton(
+                  label: AppStrings.instance.startButton.toUpperCase(),
+                  icon: FluentIcons.play_24_filled,
+                  width: 230,
+                  backgroundColor: const Color(0xFF8DE7A6),
+                  onPressed: () {
+                    game.startGame();
+                    game.overlays..remove(MainMenu.id)..add(Hud.id);
+                  },
+                ),
+                const SizedBox(height: 14),
+                Text('TAP ANYWHERE TO JUMP', textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Colors.white, fontWeight: FontWeight.w800, letterSpacing: 1.4, shadows: const [Shadow(color: Colors.black87, blurRadius: 6)])),
               ]),
             )),
           ]);
