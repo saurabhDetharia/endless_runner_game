@@ -197,9 +197,7 @@
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				98DC94791A59AE230C1782E7 /* [CP] Embed Pods Frameworks */,
-				F241EA1A2E200269008A9D39 /* Inject GAD_APP_ID_IOS into Info.plist */,
-				685FAD42B3C5956683DE075D /* [CP] Copy Pods Resources */,
+				98DC94791A59AE230C1782E7 /* [CP] Embed Pods Frameworks */,				685FAD42B3C5956683DE075D /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -379,24 +377,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		F241EA1A2E200269008A9D39 /* Inject GAD_APP_ID_IOS into Info.plist */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Inject GAD_APP_ID_IOS into Info.plist";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\n\nCONFIG_FILE=\"${PROJECT_DIR}/Flutter/Generated.xcconfig\"\n\n# Extract DART_DEFINES\nDART_DEFINES_LINE=$(grep -m1 'DART_DEFINES=' \"$CONFIG_FILE\")\nDART_DEFINES_ENCODED=$(echo \"$DART_DEFINES_LINE\" | cut -d= -f2-)\n\nIFS=',' read -ra ENCODED_ITEMS <<< \"$DART_DEFINES_ENCODED\"\n\nfor ENCODED in \"${ENCODED_ITEMS[@]}\"; do\n  DECODED=$(echo \"$ENCODED\" | base64 --decode)\n  if [[ $DECODED == GAD_APP_ID_IOS=* ]]; then\n    GAD_APP_ID_IOS=\"${DECODED#*=}\"\n  elif [[ $DECODED == AD_UNIT_ID_IOS=* ]]; then\n    AD_UNIT_ID_IOS=\"${DECODED#*=}\"\n  fi\ndone\n\n# Set values in Info.plist using PlistBuddy\nPLIST=\"$TARGET_BUILD_DIR/$INFOPLIST_PATH\"\n\nif [ -n \"$GAD_APP_ID_IOS\" ]; then\n  /usr/libexec/PlistBuddy -c \"Set :GADApplicationIdentifier $GAD_APP_ID_IOS\" \"$PLIST\" || \\\n  /usr/libexec/PlistBuddy -c \"Add :GADApplicationIdentifier string $GAD_APP_ID_IOS\" \"$PLIST\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

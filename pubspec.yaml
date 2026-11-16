@@ -50,9 +50,6 @@ dependencies:
   # To use fonts from fonts.google.com.
   google_fonts: ^6.2.1
 
-  # Google Mobile Ads SDK for Flutter.
-  google_mobile_ads: ^5.3.1
-
   # A library for reactively managing the state.
   mobx: ^2.5.0
 

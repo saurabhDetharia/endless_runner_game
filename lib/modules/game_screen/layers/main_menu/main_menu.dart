@@ -1,12 +1,10 @@
 import 'dart:ui';
 import 'package:endless_runner/modules/game_screen/endless_runner_game/endless_runner_game.dart';
-import 'package:endless_runner/modules/game_screen/layers/ad_view/ad_view_widget.dart';
 import 'package:endless_runner/modules/game_screen/layers/layers.dart';
 import 'package:endless_runner/modules/game_screen/layers/widgets/pixel_ui.dart';
 import 'package:endless_runner/values/values.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 class MainMenu extends StatelessWidget {
   const MainMenu({required this.game, super.key});
@@ -30,8 +28,7 @@ class MainMenu extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text('RUN  •  JUMP  •  SURVIVE', textAlign: TextAlign.center, style: Theme.of(context).textTheme.labelLarge?.copyWith(color: Colors.white, letterSpacing: 3, fontWeight: FontWeight.w800, shadows: const [Shadow(color: Colors.black87, blurRadius: 8)])),
                 SizedBox(height: compact ? 30 : 48),
-                PixelButton(label: AppStrings.instance.startButton.toUpperCase(), icon: FluentIcons.play_24_filled, width: 220, onPressed: () async {
-                  await showDialog(context: context, builder: (_) => const AdViewWidget(adSize: AdSize.fluid));
+                PixelButton(label: AppStrings.instance.startButton.toUpperCase(), icon: FluentIcons.play_24_filled, width: 220, onPressed: () {
                   game.startGame();
                   game.overlays..remove(MainMenu.id)..add(Hud.id);
                 }),
