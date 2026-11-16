@@ -5,22 +5,15 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 class LivesList extends StatelessWidget {
   const LivesList({required this.gameStore, super.key});
-
   final GameScreenStore gameStore;
 
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: List.generate(5, (index) {
-        return Observer(
-          builder: (context) {
-            return Icon(
-              FluentIcons.heart_24_filled,
-              color: index < gameStore.lives ? Colors.red : Colors.grey,
-            );
-          },
-        );
-      }),
-    );
-  }
+  Widget build(BuildContext context) => Observer(builder: (_) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+    decoration: BoxDecoration(color: const Color(0xEFFFFFFF), border: Border.all(color: const Color(0xFF17171D), width: 3), boxShadow: const [BoxShadow(color: Color(0xFF17171D), offset: Offset(4, 4), blurRadius: 0)]),
+    child: Row(mainAxisSize: MainAxisSize.min, children: List.generate(5, (index) => Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: Icon(FluentIcons.heart_24_filled, size: 20, color: index < gameStore.lives ? const Color(0xFFE53950) : const Color(0xFFB7B7B7)),
+    ))),
+  ));
 }
